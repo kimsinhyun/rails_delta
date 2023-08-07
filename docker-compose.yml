@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+#  app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    stdin_open: true
+#    tty: true
+#    volumes:
+#      - .:/app
+#    ports:
+#      - "3000:3000"
+#    depends_on:
+#      - mysql
+#      - redis
+#    links:
+#      - mysql
+#      - redis
+
+  mysql:
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    volumes:
+      - 'mysql_data:/var/lib/mysql'
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
+    command: redis-server --notify-keyspace-events KEA
+
+
+volumes:
+  mysql_data:
+    driver: local
+  redis:
+  app:
